@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_person_add_black_24dp"
+        android:title="Search"
+        app:showAsAction="always" />
+<!--    <item-->
+<!--        android:title="Exit"-->
+<!--        android:id="@+id/action_exit"-->
+<!--        android:icon="@drawable/ic_exit_to_app_black_24dp"-->
+<!--        app:showAsAction="always"/>-->
+    <item
+        android:id="@+id/action_drawer"
+        android:icon="@drawable/ic_menu_black_24dp"
+        android:title="Drawer"
+        app:showAsAction="always" />
+
+</menu>

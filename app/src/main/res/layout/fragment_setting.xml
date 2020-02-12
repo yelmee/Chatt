@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/setting_imageView_userProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_textview_title" />
+
+    <TextView
+        android:id="@+id/setting_textview_title"
+        android:layout_width="41dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
+        android:text="설정"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/setting_imgview_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+    <TextView
+        android:id="@+id/setting_textview_userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="유저이름"
+        app:layout_constraintEnd_toEndOf="@+id/setting_imageView_userProfile"
+        app:layout_constraintStart_toStartOf="@+id/setting_imageView_userProfile"
+        app:layout_constraintTop_toBottomOf="@+id/setting_imageView_userProfile" />
+
+    <TextView
+        android:id="@+id/setting_textView_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="email@naver.com"
+        app:layout_constraintEnd_toEndOf="@+id/setting_textview_userName"
+        app:layout_constraintStart_toStartOf="@+id/setting_textview_userName"
+        app:layout_constraintTop_toBottomOf="@+id/setting_textview_userName" />
+
+    <TextView
+        android:background="@drawable/signup_border"
+        android:id="@+id/setting_textview_passwordManage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="비밀번호 관리"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_textView_email" />
+
+    <TextView
+        android:id="@+id/setting_textview_logout"
+        android:layout_width="411dp"
+        android:background="@drawable/signup_border"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="로그아웃"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_textview_passwordManage" />
+
+    <TextView
+        android:id="@+id/setting_textview_leaveMember"
+        android:layout_width="411dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/signup_border"
+        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="회원탈퇴"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setting_textview_logout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

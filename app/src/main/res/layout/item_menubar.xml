@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:gravity="bottom">
+
+    <ImageView
+        android:id="@+id/menubar_button_friendList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_personal_924818dc8dc601731c972c357e5806d5"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="673dp" />
+
+    <ImageView
+        android:id="@+id/menubar_button_roomList"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_message"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="665dp" />
+
+    <ImageView
+        android:id="@+id/menubar_button_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.3"
+        app:srcCompat="@drawable/ic_three_dots_ellipsis_svgrepo_com"
+        tools:layout_editor_absoluteX="322dp"
+        tools:layout_editor_absoluteY="673dp" />
+</LinearLayout>
