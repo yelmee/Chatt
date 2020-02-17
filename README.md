@@ -10,8 +10,8 @@
 	• 로그아웃, 회원탈퇴
   
   ### 1. 회원가입, 로그인
-![회원가입](https://user-images.githubusercontent.com/55048165/74676182-c958ca00-51f8-11ea-9e12-ceb9f101a17c.png)
-![회원가입2](https://user-images.githubusercontent.com/55048165/74676185-cb228d80-51f8-11ea-8267-238269d74e4e.png)
+![회원가입](https://user-images.githubusercontent.com/55048165/74676182-c958ca00-51f8-11ea-9e12-ceb9f101a17c.png){: width="50%" height="50%"}
+![회원가입2](https://user-images.githubusercontent.com/55048165/74677098-e098b700-51fa-11ea-8e67-385d0be7cff4.png){: width="50%" height="50%"}
 
 	- 이메일 중복검사
 	- 이메일, 비밀번호, 이름의 유효성 검사
