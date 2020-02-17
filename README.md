@@ -13,7 +13,6 @@
 <right><img src="https://user-images.githubusercontent.com/55048165/74676182-c958ca00-51f8-11ea-9e12-ceb9f101a17c.png" height=25% width="25%"><right>
 <img src="https://user-images.githubusercontent.com/55048165/74677098-e098b700-51fa-11ea-8e67-385d0be7cff4.png" height=25% width="25%">
 
-
 	- 이메일 중복검사
 	- 이메일, 비밀번호, 이름의 유효성 검사
 	
@@ -32,15 +31,18 @@
 
 <right><img src="https://user-images.githubusercontent.com/55048165/74679017-f6f54180-51ff-11ea-854f-9d9904e174a9.png" height=25% width="25%"><right>
 <img src="https://user-images.githubusercontent.com/55048165/74676191-ccec5100-51f8-11ea-9e63-8197fa672c1c.png" height=25% width="25%">
-<img src="https://user-images.githubusercontent.com/55048165/74676193-cd84e780-51f8-11ea-9e53-6af4f71618b9.png" height=25% width="25%">	
+<img src="https://user-images.githubusercontent.com/55048165/74676193-cd84e780-51f8-11ea-9e53-6af4f71618b9.png" height=25% width="25%">
+	
 	- 와이파이가 있는 상태에서만 채팅 가능
 	- 서로 메세지를 주고 받을 수 있음
 	- 개인채팅 중 친구를 초대해 단체채팅으로 변경가능
 	
 <right><img src="https://user-images.githubusercontent.com/55048165/74678585-bea13380-51fe-11ea-8e02-19db53f872f7.png" height=25% width="25%"><right>	
 <img src="https://user-images.githubusercontent.com/55048165/74676194-cd84e780-51f8-11ea-9cf8-d60c6522528d.png" height="25%" width="25%">
+	
 	- 스와이프 기능을 이용해 채팅방 탈퇴 
 	
 ### 4. 마이페이지
 <right><img src="https://user-images.githubusercontent.com/55048165/74676196-ceb61480-51f8-11ea-83cd-bbf65f350173.png" height=25% width="25%"><right>
+	
 	- 회원을 탈퇴하거나 로그아웃을 할 수 있음
