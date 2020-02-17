@@ -18,11 +18,28 @@
 	- 이메일, 비밀번호, 이름의 유효성 검사
 	
 ### 2. 친구목록
-![친구목록](https://user-images.githubusercontent.com/55048165/74676195-ce1d7e00-51f8-11ea-8dcb-3666abb8f179.png)
-![친구추가](https://user-images.githubusercontent.com/55048165/74676186-cb228d80-51f8-11ea-90f4-0a5699df5a05.png)
-![프로필](https://user-images.githubusercontent.com/55048165/74676187-cbbb2400-51f8-11ea-9c21-70a6f5132710.png)
-![프로필2](https://user-images.githubusercontent.com/55048165/74676188-cc53ba80-51f8-11ea-8268-26099c2bc516.png)
-  
+<right><img src="https://user-images.githubusercontent.com/55048165/74676195-ce1d7e00-51f8-11ea-8dcb-3666abb8f179.png" height=25% width="25%"><right>
+<img src="https://user-images.githubusercontent.com/55048165/74676186-cb228d80-51f8-11ea-90f4-0a5699df5a05.png" height=25% width="25%">
+
+<right><img src="https://user-images.githubusercontent.com/55048165/74678013-25255200-51fd-11ea-84ba-09f53817921e.png" height=25% width="25%"><right>
+<img src="https://user-images.githubusercontent.com/55048165/74678015-25bde880-51fd-11ea-8764-804fe322605f.png" height=25% width="25%">
+
+
  	- 채팅을 하기 위한 친구를 추가할 수 있고, 친구목록을 볼 수 있음
 	- retrofit을 이용한 서버 데이터 response로 내 프로필 사진 변경
-	- 이메일을 통해 친구를 추가할 수 있음
+	
+### 3. 개인, 단체채팅
+<right><img src="https://user-images.githubusercontent.com/55048165/74676193-cd84e780-51f8-11ea-9e53-6af4f71618b9.png" height=25% width="25%"><right>
+<img src="https://user-images.githubusercontent.com/55048165/74676190-cc53ba80-51f8-11ea-926a-93a669ce2ce2.png" height=25% width="25%">
+
+<right><img src="https://user-images.githubusercontent.com/55048165/74678013-25255200-51fd-11ea-84ba-09f53817921e.png" height=25% width="25%"><right>
+<img src="https://user-images.githubusercontent.com/55048165/74676191-ccec5100-51f8-11ea-9e63-8197fa672c1c.png" height=25% width="25%">
+
+	- 와이파이가 있는 상태에서만 채팅 가능
+	- 서로 메세지를 주고 받을 수 있음
+	- 개인채팅 중 친구를 초대해 단체채팅으로 변경가능
+	- 스와이프 기능을 이용해 채팅방 탈퇴 
+	
+### 4. 마이페이지
+<right><img src="https://user-images.githubusercontent.com/55048165/74676196-ceb61480-51f8-11ea-83cd-bbf65f350173.png" height=25% width="25%"><right>
+	- 회원을 탈퇴하거나 로그아웃을 할 수 있음
