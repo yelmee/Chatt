@@ -30,7 +30,7 @@
 	
 ### 3. 개인, 단체채팅
 
-<right><img src="https://user-images.githubusercontent.com/55048165/74678588-bfd26080-51fe-11ea-9b74-59709fdd4cfa.png" height=25% width="25%"><right>
+<right><img src="https://user-images.githubusercontent.com/55048165/74679017-f6f54180-51ff-11ea-854f-9d9904e174a9.png" height=25% width="25%"><right>
 <img src="https://user-images.githubusercontent.com/55048165/74676191-ccec5100-51f8-11ea-9e63-8197fa672c1c.png" height=25% width="25%">
 <img src="https://user-images.githubusercontent.com/55048165/74676193-cd84e780-51f8-11ea-9e53-6af4f71618b9.png" height=25% width="25%">	
 	- 와이파이가 있는 상태에서만 채팅 가능
@@ -38,7 +38,7 @@
 	- 개인채팅 중 친구를 초대해 단체채팅으로 변경가능
 	
 <right><img src="https://user-images.githubusercontent.com/55048165/74678585-bea13380-51fe-11ea-8e02-19db53f872f7.png" height=25% width="25%"><right>	
-<img src="(https://user-images.githubusercontent.com/55048165/74676194-cd84e780-51f8-11ea-9cf8-d60c6522528d.png" height="25%" width="25%"
+<img src="https://user-images.githubusercontent.com/55048165/74676194-cd84e780-51f8-11ea-9cf8-d60c6522528d.png" height="25%" width="25%">
 	- 스와이프 기능을 이용해 채팅방 탈퇴 
 	
 ### 4. 마이페이지
