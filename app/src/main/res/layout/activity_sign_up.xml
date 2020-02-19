@@ -6,86 +6,126 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
+    <TextView
+        android:id="@+id/signUp_text_pwdCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8자리 이상 입력해주세요"
+        android:textSize="12sp"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toStartOf="@+id/signUp_editText_password"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_password" />
+
+    <TextView
+        android:id="@+id/signUp_text_pwdconfirmCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="비밀번호가 일치하지 않습니다"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toStartOf="@+id/signUp_editText_passwordCheck"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_passwordCheck" />
+
+    <TextView
+        android:id="@+id/signUp_text_nameCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="한글, 영문만 입력가능합니다"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/signUp_editText_name"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_name" />
+
     <EditText
         android:id="@+id/signUp_editText_email"
+        style="@style/text_sidemargin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="70dp"
         android:background="@drawable/signup_border"
         android:ems="10"
         android:hint="이메일을 입력해주세요"
         android:inputType="textPersonName"
-        android:padding="40px"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:id="@+id/signUp_editText_password"
+        style="@style/text_sidemargin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="@drawable/signup_border"
         android:ems="10"
+        android:textSize="16sp"
         android:hint="비밀번호를 입력해주세요"
         android:inputType="textPassword"
-        android:padding="40px"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_email" />
 
     <EditText
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:padding="40px"
         android:id="@+id/signUp_editText_passwordCheck"
-        android:background="@drawable/signup_border"
+        style="@style/text_sidemargin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/signup_border"
         android:ems="10"
+        android:textSize="16sp"
         android:hint="비밀번호를 확인해주세요"
         android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_password" />
 
     <EditText
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:padding="40px"
-        android:background="@drawable/signup_border"
         android:id="@+id/signUp_editText_name"
+        style="@style/text_sidemargin"
+        android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/signup_border"
         android:ems="10"
         android:hint="이름을 입력해주세요"
         android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_passwordCheck" />
 
     <Button
+        android:background="@color/colorYellow"
         android:id="@+id/signUp_button_register"
+        style="@style/text_sidemargin"
         android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:padding="15dp"
         android:text="회원가입하기"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUp_editText_name" />
 
     <TextView
-
+        android:textSize="16sp"
         android:id="@+id/textView"
         android:layout_width="409dp"
         android:layout_height="0dp"
         android:gravity="center"
         android:padding="10dp"
         android:text="회원가입"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/signUp_text_emailcheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이미 존재하는 이메일입니다"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/signUp_editText_email"
+        app:layout_constraintTop_toBottomOf="@+id/signUp_editText_email" />
 </androidx.constraintlayout.widget.ConstraintLayout>

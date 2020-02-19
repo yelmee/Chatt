@@ -9,7 +9,6 @@
     tools:context=".ChatActivity">
     <include
         layout="@layout/drawer_chathelper"
-
         />
 
 <!--    <android.support.design.widget.NavigationView-->
@@ -29,13 +28,14 @@
             android:id="@+id/chat_recyclerview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/constraintLayout1"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/colorwhite"
@@ -45,18 +45,18 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <EditText
-                android:lines="8"
-                android:minLines="6"
-                android:gravity="top|left"
-                android:maxLines="10"
-                android:scrollbars="vertical"
-                android:paddingRight="30dp"
                 android:id="@+id/chat_editText_messageInsert"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
                 android:background="@drawable/round_edittext"
                 android:ems="10"
+                android:gravity="top|left"
                 android:inputType="textMultiLine"
+                android:lines="8"
+                android:maxLines="10"
+                android:minLines="6"
+                android:paddingRight="30dp"
+                android:scrollbars="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,12 +65,10 @@
             <ImageView
                 android:id="@+id/chat_imgbtn_sendmsg"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_margin="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/chat_editText_messageInsert"
-                app:layout_constraintEnd_toEndOf="@+id/chat_editText_messageInsert"
-                app:layout_constraintTop_toTopOf="@+id/chat_editText_messageInsert"
-                app:layout_constraintVertical_bias="0.0"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_arrow" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

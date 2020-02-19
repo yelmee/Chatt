@@ -33,60 +33,7 @@ class ChatListFragment : Fragment() {
     var mList = ArrayList<Message>()
     lateinit var mSocket: Socket
 
-//    companion object{
-//
-//        lateinit var mRecyclerView: RecyclerView
-//        lateinit var db: DBAdapter
-//        lateinit var mAdapter: ChatListAdapter
-//        lateinit var mContext: Context
-//        var mList = ArrayList<Message>()
-//
-//
-//        fun setDate(now: Long): String{
-//            var date: Date = Date(now)
-//            var sdfNow: SimpleDateFormat = SimpleDateFormat("HH:mm")
-//            var formatDate: String = sdfNow.format(date)
-//
-//            return formatDate
-//        }
-//
-//         fun refreshRecyclerView(){
-//
-//            db. openDB()
-//            var c: Cursor = db.AllRooms
-//
-//            if (c.moveToFirst()){
-//
-//                do{
-//                    var lastMsgId = c.getIntOrNull(3)
-//                    Log.e(this.toString(), lastMsgId.toString())
-//
-//                    if(lastMsgId != null){
-//
-//                        var c2: Cursor = db.showChatRoomList()
-//                        c2.moveToPosition(lastMsgId!!)
-//                        Log.e(this.toString(), "test$lastMsgId")
-//
-//                        var messageId = c2.getLong(0)
-//                        var roomId = c2.getString(1)
-//                        var userId = c2.getString(2)
-//                        var userName = c2.getString(3)
-//                        var userProfileImg = c2.getString(4)
-//                        var userMessage  = c2.getString(5)
-//                        var userDate = c2.getLong(6)
-//                        var state = c2.getString(7)
-//
-//                        var message = Message(messageId, roomId, userId, userName, userProfileImg, userMessage, setDate(userDate),state)
-//                        mList.add(message)
-//                        mAdapter.notifyDataSetChanged()
-//                    }
-//
-//                }while (c.moveToNext())
-//
-//            }
-//        }
-//
-//    }
+//    java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid view holder adapter positionHolder{df3d7b8 position=1 id=-1, oldPos=1, pLpos:-1 scrap [attachedScrap] tmpDetached no parent} androidx.recyclerview.widget.RecyclerView{3f59218 VFED..... ......I. 0,222-1072,1570 #7f070055 app:id/chatList_recyclerview}, adapter:com.example.chatt.ChatListAdapter@8a2b471, layout:androidx.recyclerview.widget.LinearLayoutManager@a77256, context:com.example.chatt.MainActivity@809af5c
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -115,6 +62,7 @@ class ChatListFragment : Fragment() {
         mSocket.on("new user", onNewUser)
         mSocket.on("invite allRoomUser", onAllRoomUser)
         mSocket.on("invite room", onRoomInvited)
+        mSocket.on("leave room", onLeaveRoom)
         mSocket.connect()
 
         refreshRecyclerView()
@@ -139,6 +87,7 @@ class ChatListFragment : Fragment() {
         mSocket.off("new user", onNewUser)
         mSocket.off("invite allRoomUser", onAllRoomUser)
         mSocket.off("invite room", onRoomInvited)
+        mSocket.off("leave room", onLeaveRoom)
     }
 
    private fun refreshRecyclerView(){
@@ -354,6 +303,21 @@ class ChatListFragment : Fragment() {
         )
 
         joinRoom(data.getString("roomId"))
+
+    }
+
+    internal val onLeaveRoom: Emitter.Listener = Emitter.Listener { args ->
+
+        var data = args[0] as JSONObject
+
+        var roomId = data.getString("roomId")
+        var userId = data.getString("userId")
+        var userName = data.getString("userName")
+
+        db.removeRoomUser(userId, roomId)
+        db.addMessage(roomId, userId, userName, "", "", 0, "leave")
+
+        refreshRecyclerView()
 
     }
 

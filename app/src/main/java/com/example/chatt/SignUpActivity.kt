@@ -1,15 +1,20 @@
 package com.example.chatt
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.util.Patterns
+import android.view.View
+import androidx.core.view.isInvisible
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.json.JSONObject
+import java.util.regex.Pattern
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -27,22 +32,78 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-
-
-
         mSocket.connect()
         mSocket.on("check signup", onCheckSignUp)
+        mSocket.on("check email", onCheckEmail)
+
+        signUp_text_nameCheck.visibility = View.INVISIBLE
+        signUp_text_emailcheck.visibility = View.INVISIBLE
+        signUp_text_pwdCheck.visibility = View.INVISIBLE
+        signUp_text_pwdconfirmCheck.visibility = View.INVISIBLE
 
 
         signUp_button_register.setOnClickListener() {
-
-            // 회원가입 정보 서버에 등록
             sendUsersInfo()
-
-
         }
 
+        signUp_editText_email.onFocusChangeListener =
+            View.OnFocusChangeListener { v, hasFocus ->
+                if(!hasFocus){
+                    var email = signUp_editText_email.text.toString()
 
+                    var obj = JSONObject()
+                    obj.put("email", email)
+                    obj.put("socketId", mSocket.id())
+                    mSocket.emit("check email", obj)
+                }
+            }
+
+        signUp_editText_name.onFocusChangeListener =
+            View.OnFocusChangeListener { v, hasFocus ->
+                if(!hasFocus){
+
+                    var pattern = "^[a-zA-Z]*|[가-힣]*$"
+                    var name = signUp_editText_name.text.toString()
+                    if(!Pattern.matches(pattern, name)){
+                        signUp_text_nameCheck.visibility = View.VISIBLE
+                    }else{
+                        signUp_text_nameCheck.visibility = View.INVISIBLE
+
+                    }
+                }
+            }
+
+        signUp_editText_password.onFocusChangeListener =
+            View.OnFocusChangeListener { v, hasFocus ->
+                if(!hasFocus){
+                    var pattern = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-zA-Z]).{8,20}$"
+                    var pwd = signUp_editText_password.text.toString()
+                    if(!Pattern.matches(pattern, pwd)){
+                        signUp_text_pwdCheck.visibility = View.VISIBLE
+                    }else{
+                        signUp_text_pwdCheck.visibility = View.INVISIBLE
+
+                    }
+
+
+                }
+
+                signUp_editText_passwordCheck.onFocusChangeListener =
+                    View.OnFocusChangeListener { v, hasFocus ->
+                        if(!hasFocus){
+                            var pwd = signUp_editText_password.text.toString()
+                            var pwdCheck = signUp_editText_passwordCheck.text.toString()
+
+                            if(pwd == pwdCheck){
+                                signUp_text_pwdconfirmCheck.visibility = View.INVISIBLE
+
+                            }else{
+                                signUp_text_pwdconfirmCheck.visibility = View.VISIBLE
+
+                            }
+                        }
+                    }
+            }
     }
 
 
@@ -75,32 +136,35 @@ class SignUpActivity : AppCompatActivity() {
         Log.e("SignUpActivity", "sendUserInfo: 1" + mSocket.emit("send signup", jsonObject))
 
     }
-//    // Socket서버에 connect 되면 발생하는 이벤트
-//    private val onConnect = Emitter.Listener {
-//        Log.d("Dddd", "연결")
-//        mSocket.emit("send", "안녕")
-//        val jsonObject = JSONObject()
-//        try {
-//            jsonObject.put("email", "qkfrk94@naver.com")
-//            jsonObject.put("password", "asdf")
-//            jsonObject.put("passwordChk", "asdf")
-//            jsonObject.put("name", "정예림")
-//
-//            mSocket.emit("send", jsonObject)
-//
-//        } catch (e: JSONException) {
-//            e.printStackTrace()
-//        }
-//    }
-//
 
+
+    private val onCheckEmail: Emitter.Listener = Emitter.Listener { args ->
+        runOnUiThread(Runnable {
+            var data = args[0] as JSONObject
+
+            if(data.getBoolean("isCheck")){
+
+                signUp_text_emailcheck.visibility = View.INVISIBLE
+
+            }else{
+                signUp_text_emailcheck.visibility = View.VISIBLE
+                signUp_text_emailcheck.text= "이미 등록된 이메일입니다"
+
+            }
+
+            var email = signUp_editText_email.text.toString()
+
+            if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                        signUp_text_emailcheck.visibility = View.VISIBLE
+                signUp_text_emailcheck.text= "이메일 형식이 아닙니다"
+            }
+        })
+    }
     private val onCheckSignUp: Emitter.Listener = Emitter.Listener { args ->
 
         runOnUiThread(Runnable {
 
-            //            var data: JSONObject = args[0] as JSONObject
             var data: String = args[0] as String
-
 
             Log.e(this.toString(), data)
 

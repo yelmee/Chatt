@@ -21,7 +21,7 @@ class DownloadThread(var ServerUrl: String, var LocalPath: String) : Thread() {
             val len = conn.contentLength
             val tmpByte = ByteArray(len)
             val `is` = conn.inputStream
-            //                Bitmap is = BitmapFactory.decodeStream(aa);
+            //                Bitmap is = BitmapFactory.decodeStream(item_swipe);
             val file = File(LocalPath)
             val fos = FileOutputStream(file)
             while (true) {

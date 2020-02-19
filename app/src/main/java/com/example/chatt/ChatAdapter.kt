@@ -39,9 +39,6 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
         db = DBAdapter(context)
         handler = Handler()
         var mSocket = SocketServer.getSocket()
-        Log.e(this.toString(), "start")
-//        mSocket.on("send check", onSendCheckFromServer)
-
 
         when (viewType) {
             0 -> {
@@ -74,6 +71,12 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
                 return Holder(view)
             }
 
+            5 -> {
+                view = LayoutInflater.from(context)
+                    .inflate(R.layout.item_chat_notice, parent, false)
+                return Holder(view)
+            }
+
 
         }
 
@@ -91,14 +94,13 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
     override fun getItemViewType(position: Int): Int {
 
         var message: Message = arrayList.get(position)
-        // 내가 보낸 메세지
         if (message.userId.equals(getPreferenceId())) {
-
-            return 0
-        } else {
+            return 0 }
+        else {
             if(message.state == "enter"){
-
                 return 4
+            }else if(message.state == "leave"){
+                return 5
             }
             return 1
         }
@@ -106,20 +108,16 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        Log.e(this.toString(), "onbindviewholder")
-
         if (getItemViewType(position) == 1) {
             holder.bind(arrayList[position])
-
         } else if (getItemViewType(position) == 0) {
             holder.bind2(context, arrayList[position])
-            getPosition(arrayList[position])
-
         } else if (getItemViewType(position) == 3) {
             holder.bind3(arrayList[position])
-
         }else if(getItemViewType(position) == 4){
             holder.bind4(arrayList[position])
+        }else if(getItemViewType(position) == 5){
+            holder.bind5(arrayList[position])
         }
     }
 
@@ -146,7 +144,6 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
             userName?.text = message.userName
             userMessage?.text = message.content
             userDate?.text = message.date
-//            userMessage?.setBackgroundResource(R.drawable.dd)
 
             var imgFile: File =
                 File("/storage/emulated/0/isdown" + "/profile_${message.userId}.jpg")
@@ -178,14 +175,10 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
 
             myMessage?.text = message.content
             myDate?.text = message.date
-//            myMessage?.setBackgroundResource(R.drawable.rightbubble)
-
             sendCheck?.visibility = INVISIBLE
 
             if (message.state == "success") {
-
                 sendCheck?.visibility = INVISIBLE
-
 
             }
 //            else if (message.state == "fail") {
@@ -218,6 +211,12 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
             noticeMessage?.text = message.userName+"이 입장하셨습니다."
 
         }
+
+        fun bind5(message: Message){
+
+            noticeMessage?.text = message.userName+"이 퇴장하셨습니다."
+
+        }
     }
 
 
@@ -230,30 +229,6 @@ class ChatAdapter(val context: Context, val arrayList: ArrayList<Message>) :
 
         return autoUserID
     }
-
-    internal val onSendCheckFromServer: Emitter.Listener = Emitter.Listener {
-
-        handler.removeCallbacks {
-
-        }
-
-        Log.e(this.toString(), "onsendcheck")
-        ((ChatActivity)to ChatActivity.mContext).first.updateMessageSuccess(id)
-
-
-        handler.post(Runnable {
-            notifyDataSetChanged()
-
-        })
-
-
-    }
-
-    fun getPosition(message: Message) {
-
-
-    }
-
 
 
 

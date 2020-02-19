@@ -4,26 +4,29 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.chatt.DBHelper.DBAdapter
+import com.example.chatt.Server.SocketServer
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_profile_my.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
 
 class ProfileActivity : AppCompatActivity() {
-
-    var url = "http://192.168.73.135:3000"
 
     lateinit var roomId: String
     lateinit var friendId: String
     lateinit var friendName: String
     var isRoom: Boolean = false
-    private var mSocket: Socket = IO.socket(url)
+    lateinit var mSocket: Socket
 
     lateinit var db: DBAdapter
 
@@ -31,17 +34,25 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        mSocket.connect()
-        mSocket.on("new room", onNewRoom())
         db = DBAdapter(this)
-
-        Log.e(this.toString(), "소켓아디" + mSocket.id())
 
         var getIntent = intent.extras
         friendName = getIntent!!.getString("friendName")!!
         friendId = getIntent.getString("friendObjectId")!!
 
+
+        var imgFile: File = File("/storage/emulated/0/isdown"+"/profile_$friendId.jpg")
+        if(imgFile.exists()){
+            var myBitmap: Bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+            profile_imageview_profileimg?.setImageBitmap(myBitmap)
+        }
         profile_textview_username.text = friendName
+
+        mSocket = SocketServer.getSocket()
+        mSocket.connect()
+        mSocket.on("new room", onNewRoom())
+
+        Log.e(this.toString(), "소켓아디" + mSocket.id())
 
 
         profile_imgButton_close.setOnClickListener {
@@ -56,17 +67,12 @@ class ProfileActivity : AppCompatActivity() {
             if (checkRoom(friendId) == "") {
                 isRoom = false
 
-                //서버에서 roomid 만들기
-
                 var objArray = JSONArray()
-
                 var obj: JSONObject = JSONObject()
                 obj.put("user1", getUserIdFromShared())
                 obj.put("user2", friendId)
 
                 Log.e(this.toString(), "request room" + mSocket.emit("add room", obj))
-
-
 
             } else {
                 isRoom = false
@@ -82,6 +88,13 @@ class ProfileActivity : AppCompatActivity() {
             }
 
         }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mSocket.off("new room", onNewRoom())
 
     }
 
@@ -162,8 +175,6 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
 
             finish()
-
-
         })
 
     }

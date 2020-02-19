@@ -4,25 +4,19 @@ import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.AssetManager
 import android.database.Cursor
-import android.database.SQLException
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatt.DBHelper.DBAdapter
-import com.example.chatt.Model.Friend
 import com.example.chatt.Model.RoomUser
 import com.example.chatt.Server.SocketServer
 import io.socket.client.Socket
@@ -42,6 +36,7 @@ class ChatActivity : AppCompatActivity() {
 
     lateinit var drawerLayout: DrawerLayout
     lateinit var drawer: View
+    lateinit var drawer_function: View
 
     lateinit var radapter: RoomUserAdapter
     lateinit var mSocket: Socket
@@ -51,65 +46,25 @@ class ChatActivity : AppCompatActivity() {
 
 
     var File_Name = ""
-    var File_extend = "jpeg"
     var fileURL = "http://192.168.73.135/chat/uploads/"
     lateinit var Save_Path: String
     var Save_folder = "isdown"
+
     lateinit var dThread: DownloadThread
+    lateinit var mList: ArrayList<Message>
+    lateinit var roomId: String
+    lateinit var db: DBAdapter
+    lateinit var madapter: ChatAdapter
+    lateinit var recyclerView: RecyclerView
 
     init {
         db = DBAdapter(this)
-
     }
 
     companion object {
 
         lateinit var mContext: Context
-
-        //        lateinit var drawerLayout: DrawerLayout
-//
-//        lateinit var recyclerView: RecyclerView
-//        lateinit var madapter: ChatAdapter
-//        lateinit var radapter: RoomUserAdapter
-//        lateinit var mSocket: Socket
-//        lateinit var roomId: String
-//        lateinit var db: DBAdapter
-//
-//        lateinit var mList: ArrayList<Message>
-//        lateinit var rList: ArrayList<RoomUser>
-//        lateinit var preferences: SharedPreferences
-        lateinit var mList: ArrayList<Message>
-        lateinit var roomId: String
-        lateinit var db: DBAdapter
-        lateinit var madapter: ChatAdapter
-        lateinit var recyclerView: RecyclerView
-
-        fun updateMessageSuccess(id: Long) {
-
-//            db.openDB()
-//            db.updateMessageState("success", id)
-//            db?.close()
-        }
-
-        fun updateMessageError(id: Long) {
-
-            db.openDB()
-            db.updateMessageState("error", id)
-        }
-
-        @SuppressLint("SimpleDateFormat")
-        fun setDate(now: Long): String {
-            var date: Date = Date(now)
-            var sdfNow: SimpleDateFormat = SimpleDateFormat("HH:mm")
-            var formatDate: String = sdfNow.format(date)
-
-            return formatDate
-        }
-
     }
-
-
-
 
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -117,7 +72,6 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         mContext = this
-//        var exit = findViewById<ImageView>(R.id.drawer_imagebtn_exit)
         drawerLayout = findViewById(R.id.drawerlayout)
         drawer = findViewById(R.id.drawer)
         recyclerView = findViewById(R.id.chat_recyclerview)
@@ -130,7 +84,6 @@ class ChatActivity : AppCompatActivity() {
         radapter = RoomUserAdapter(this, rList)
         var lm = LinearLayoutManager(this)
         var lm2 = LinearLayoutManager(this)
-
 
         recyclerView.adapter = madapter
         recyclerView.layoutManager = lm2
@@ -147,12 +100,13 @@ class ChatActivity : AppCompatActivity() {
         mSocket.on("new user", onNewUser)
         mSocket.on("invite allRoomUser", onAllRoomUser)
         mSocket.on("invite room", onRoomInvited)
+        mSocket.on("leave room", onLeaveRoom)
         mSocket.connect()
         Log.e(this.toString(), "getSocketId: " + mSocket.id())
 
 
         supportActionBar!!.setDisplayShowTitleEnabled(false)
-        supportActionBar!!.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM)
+        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar!!.setCustomView(R.layout.action_bar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 //        actionbar_title.text = getO(roomId)
@@ -162,7 +116,7 @@ class ChatActivity : AppCompatActivity() {
         refreshRecyclerView()
         setDrawerRecycler()
 
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         recyclerView.scrollToPosition(mList.size - 1)
 
 
@@ -173,18 +127,23 @@ class ChatActivity : AppCompatActivity() {
 
         }
 
+//        chat_imgbtn_extraFucntion.setOnClickListener {
+////            drawerLayout.openDrawer(drawer_function)
+////            drawer_function.visibility = View.VISIBLE
+//        }
+
 
     }
-
-    override fun onStop() {
-        super.onStop()
-
-        mSocket.off("chat message", onChatMessage)
-        mSocket.off("new friend", onNewFriend)
-        mSocket.off("new user", onNewUser)
-        mSocket.off("invite allRoomUser", onAllRoomUser)
-        mSocket.off("invite room", onRoomInvited)
-    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//
+//        mSocket.off("chat message", onChatMessage)
+//        mSocket.off("new friend", onNewFriend)
+//        mSocket.off("new user", onNewUser)
+//        mSocket.off("invite allRoomUser", onAllRoomUser)
+//        mSocket.off("invite room", onRoomInvited)
+//    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -194,6 +153,8 @@ class ChatActivity : AppCompatActivity() {
         mSocket.off("new user", onNewUser)
         mSocket.off("invite allRoomUser", onAllRoomUser)
         mSocket.off("invite room", onRoomInvited)
+        mSocket.off("leave room", onLeaveRoom)
+
     }
 
     override fun onResume() {
@@ -203,23 +164,6 @@ class ChatActivity : AppCompatActivity() {
         setDrawerRecycler()
     }
 
-    fun getOtherUserName(roomId: String): String {
-
-        db.openDB()
-
-
-        var c: Cursor = db.getRoomInfo(roomId)
-        c.moveToPosition(0)
-
-        var otherUserId: String = c.getString(4)
-
-        var c2: Cursor = db.getRoomInfo(otherUserId)
-        c2.moveToPosition(0)
-
-        var friendName = c2.getString(3)
-
-        return friendName
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
@@ -250,9 +194,25 @@ class ChatActivity : AppCompatActivity() {
         var inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.chat_bar, menu)
 
-
-
         return true
+    }
+
+    fun getOtherUserName(roomId: String): String {
+
+        db.openDB()
+
+
+        var c: Cursor = db.getRoomInfo(roomId)
+        c.moveToPosition(0)
+
+        var otherUserId: String = c.getString(4)
+
+        var c2: Cursor = db.getRoomInfo(otherUserId)
+        c2.moveToPosition(0)
+
+        var friendName = c2.getString(3)
+
+        return friendName
     }
 
     private fun setDrawerRecycler() {
@@ -261,22 +221,18 @@ class ChatActivity : AppCompatActivity() {
         lateinit var roomUser: RoomUser
         rList.clear()
 
-
-
         db.openDB()
-        var c: Cursor = db.getRoomUserFromRoomId(roomId)
+        var c: Cursor = db.getRoomUserFromRoomId(roomId)//
 
         roomUser = RoomUser(getUserIdFromShared(), getUserNameFromShared())
         rList.add(roomUser)
 
         while (c.moveToNext()) {
 
-            var otherUserIds = c.getString(2)
-            var c2: Cursor = db.getRoomUserInfo(otherUserIds)
 
-            c2.moveToPosition(0)
-            var userId = c2.getString(2)
-            var userName = c2.getString(3)
+
+            var userId = c.getString(2)
+            var userName = c.getString(3)
 
             uploadFriendProfile(userId)
 
@@ -432,15 +388,7 @@ class ChatActivity : AppCompatActivity() {
         return formatDate
     }
 
-    internal val onSendCheckFromServer: Emitter.Listener = Emitter.Listener {
 
-        runOnUiThread(Runnable {
-
-//            refreshRecyclerView()
-        })
-
-
-    }
 
     private fun uploadFriendProfile(friendId: String) {
 
@@ -566,7 +514,7 @@ class ChatActivity : AppCompatActivity() {
 
                 }
             }
-
+                setDrawerRecycler()
 
         })
     }
@@ -607,6 +555,20 @@ class ChatActivity : AppCompatActivity() {
             }
         })
     }
+    internal val onLeaveRoom: Emitter.Listener = Emitter.Listener { args ->
+        runOnUiThread(Runnable {
+            var data = args[0] as JSONObject
 
+            var roomId = data.getString("roomId")
+            var userId = data.getString("userId")
+            var userName = data.getString("userName")
 
+            db.removeRoomUser(userId, roomId)
+            db.addMessage(roomId, userId, userName, "", "", 0, "leave")
+
+            refreshRecyclerView()
+            setDrawerRecycler()
+
+        })
+    }
 }

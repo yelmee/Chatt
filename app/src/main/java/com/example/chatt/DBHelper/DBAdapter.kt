@@ -77,6 +77,10 @@ class DBAdapter(internal var c: Context) {
         return db.rawQuery(sqlSelect, null)
     }
 
+    fun aa(roomId: String){
+        var sqlSelect = "SELECT * FROM roomUser_TB INNER JOIN roomUser_TB ON roomUser_TB."
+    }
+
     fun getRoomUserFromUserId(otherUserIds: String): Cursor{
 
         var sqlSelect = "SELECT * FROM roomUser_TB WHERE user_id = '$otherUserIds'"
@@ -91,7 +95,26 @@ class DBAdapter(internal var c: Context) {
 
     }
 
+    fun removeRoomUser(userId: String, roomId: String){
 
+        var sqlDelete = "DELETE FROM roomUser_TB WHERE user_id = '$userId' AND room_id = '$roomId'"
+
+        db.execSQL(sqlDelete)
+    }
+
+    fun removeRoom(roomId: String){
+
+        var sqlDelete = "DELETE FROM room_TB WHERE room_id = '$roomId'"
+
+         db.execSQL(sqlDelete)
+    }
+
+    fun removeAllRoomUser(roomId: String){
+
+        val sqlDelete = "DELETE FROM roomUser_TB WHERE room_id = '$roomId'"
+
+        db.execSQL(sqlDelete)
+    }
 
     fun getRoomInfo(roomId: String): Cursor{
 
@@ -145,6 +168,7 @@ class DBAdapter(internal var c: Context) {
 
         return 0
     }
+
 
     private fun getUserIdFromShared(): String {
 
@@ -277,6 +301,19 @@ class DBAdapter(internal var c: Context) {
 
 
         return 0
+    }
+
+    fun deleteTableAndCreate(){
+
+        db.execSQL("DROP TABLE IF EXISTS " + FriendConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS " + RoomConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS " + MessageConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS " + RoomUserConstant.TB_NAME)
+
+        db.execSQL(FriendConstant.CREATE_TB)
+        db.execSQL(RoomConstant.CREATE_TB)
+        db.execSQL(MessageConstant.CREATE_DB)
+        db.execSQL(RoomUserConstant.CREATE_TB)
     }
 
 }

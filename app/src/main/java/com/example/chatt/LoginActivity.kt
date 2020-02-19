@@ -11,29 +11,16 @@ import android.util.Log
 import android.widget.Toast
 import com.example.chatt.DBHelper.DBAdapter
 import com.example.chatt.Server.SocketServer
-import com.gun0912.tedpermission.PermissionListener
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
-import java.util.ArrayList
 import android.content.pm.PackageManager
-//import androidx.core.app.ComponentActivity.ExtraData
-//import androidx.core.content.ContextCompat.getSystemService
-//import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-//import androidx.core.app.ActivityCompat
-//import androidx.core.content.ContextCompat
-//import androidx.core.app.ComponentActivity.ExtraData
-//import androidx.core.content.ContextCompat.getSystemService
-//import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-//
-//
 
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var mSocket : Socket
-//    var permission_list = { Manifest.permission.WRITE_CONTACTS}
     var permission_list = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
    internal lateinit var preference : SharedPreferences
 
@@ -41,59 +28,39 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        mSocket = SocketServer.getSocket()
         preference = getSharedPreferences("USERSIGN", Context.MODE_PRIVATE)
+
         checkPermission()
 
+        mSocket= SocketServer.getSocket()
+        mSocket.on("check login", onLogin)   // 로그인 성공 시 메인으로 이동
+        mSocket.on("retrieve friend",onRetriveFriendInfo)
+        mSocket.connect()
 
 
-//        var permissionlistner: PermissionListener = object : PermissionListener{
-//            override fun onPermissionGranted() {
-//                Toast.makeText(applicationContext, "Permission Granted", Toast.LENGTH_SHORT).show()
-//
-//            }
-//
-//            override fun onPermissionDenied(deniedPermissions: ArrayList<String>?) {
-//                Toast.makeText(applicationContext, "Permission Denied\n"+deniedPermissions.toString(), Toast.LENGTH_SHORT).show()
-//            }
-//
-//        };
-
-//        TedPermission.with(this)
-//            .setPermissionListener(permissionlistner)
-//            .setRationaleMessage("we need permission..")
-//            .setDeniedMessage("if you refject permission, ....")
-//            .setGotoSettingButtonText("setting")
-//            .setPermissions(
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.SYSTEM_ALERT_WINDOW)
-//            .check()
-
-        // 회원가입 창으로 이동
         signIn_textView_signUp.setOnClickListener(){
             var intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 
-        mSocket= SocketServer.getSocket()
-        mSocket.on("check login", onLogin)   // 로그인 성공 시 메인으로 이동
-        mSocket.on("retrieve friend",onRetriveFriendInfo)
-        Log.e("test","is test"+mSocket.emit("aa","dddd"))
-
-        mSocket.connect()
 
         if(getUserIdFromShared() != ""){
             startAutoLogin()
 
         }
 
-        //로그인 버튼 클릭 이벤트
         login_button_getLogin.setOnClickListener(){
-
-            //서버에 로그인 확인 정보 보냄
             sendLoginInfo()
 
         }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mSocket.off("check login", onLogin)
+        mSocket.off("retrieve friend",onRetriveFriendInfo)
 
     }
     fun checkPermission() {
@@ -169,25 +136,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//
-//        if(requestCode == 0){
-//            for( i in grantResults){
-//                if(grantResults[i] == PackageManager.PERMISSION_GRANTED){
-//
-//                }else{
-//                    Toast.makeText(applicationContext, "앱 권한 설정을 해주세요", Toast.LENGTH_SHORT).show()
-//                    finish()
-//                }
-//            }
-//        }
-//    }
 
 
     private val onLogin : Emitter.Listener = Emitter.Listener{  args ->
@@ -210,7 +158,7 @@ class LoginActivity : AppCompatActivity() {
                 editer.apply()
 
                 //SQLite 안의 userinfo에 친구정보 동기화 시키기
-                retrieveFriendInfo()
+                AddFriendInfo()
 
                 //메인으로 이동
                 val intent = Intent(this, MainActivity::class.java)
@@ -227,12 +175,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    internal val onError : Emitter.Listener = Emitter.Listener { args ->
-        runOnUiThread(Runnable {
-                    Toast.makeText(this, "로그인실패", Toast.LENGTH_SHORT).show()
-
-        })
-    }
 
     fun sendLoginInfo(){
 
@@ -247,9 +189,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // 서버에서 가져온 friendlist 정보를 sqlite에 저장하기
-    fun retrieveFriendInfo(){
+    fun AddFriendInfo(){
 
-        Log.e(this.toString(), "리트라이브")
         var json = JSONObject()
         json.put("id",getUserIdFromShared())
         mSocket.emit("get friend", json)
@@ -258,7 +199,6 @@ class LoginActivity : AppCompatActivity() {
 
     internal val onRetriveFriendInfo: Emitter.Listener = Emitter.Listener { args ->
         runOnUiThread(Runnable {
-            Log.e(this.toString(), "불러옴")
 
             var data:JSONObject = args[0] as JSONObject
 
@@ -288,7 +228,7 @@ class LoginActivity : AppCompatActivity() {
 
             var intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
-
+            finish()
         }
 
     }

@@ -56,34 +56,35 @@
         app:layout_constraintStart_toStartOf="@+id/setting_textview_userName"
         app:layout_constraintTop_toBottomOf="@+id/setting_textview_userName" />
 
-    <TextView
-        android:background="@drawable/signup_border"
-        android:id="@+id/setting_textview_passwordManage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
-        android:gravity="center_vertical"
-        android:padding="10dp"
-        android:text="비밀번호 관리"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting_textView_email" />
+<!--    <TextView-->
+<!--        android:id="@+id/setting_textview_passwordManage"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="@drawable/signup_border"-->
+<!--        android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:padding="8dp"-->
+<!--        android:text="비밀번호 관리"-->
+<!--        android:textSize="16sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/setting_textView_email" />-->
 
     <TextView
         android:id="@+id/setting_textview_logout"
         android:layout_width="411dp"
-        android:background="@drawable/signup_border"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/signup_border"
         android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
         android:gravity="center_vertical"
-        android:padding="10dp"
+        android:padding="8dp"
         android:text="로그아웃"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setting_textview_passwordManage" />
+        app:layout_constraintTop_toBottomOf="@+id/setting_textView_email" />
 
     <TextView
         android:id="@+id/setting_textview_leaveMember"
@@ -92,9 +93,9 @@
         android:background="@drawable/signup_border"
         android:drawableRight="@drawable/ic_keyboard_arrow_right_black_24dp"
         android:gravity="center_vertical"
-        android:padding="10dp"
+        android:padding="8dp"
         android:text="회원탈퇴"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setting_textview_logout" />

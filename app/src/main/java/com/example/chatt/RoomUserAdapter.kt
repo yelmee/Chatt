@@ -40,17 +40,10 @@ class RoomUserAdapter (val context: Context, val roomUserList: ArrayList<RoomUse
 
         fun bind(roomUser: RoomUser, context: Context, position: Int){
 
-//            var preference = context.getSharedPreferences("USERSIGN", Context.MODE_PRIVATE)
-//            var user_id = preference.getString("uid",null)
-
-
             if(position != 1){
                 friendTitle!!.setVisibility(View.GONE)
 
             }
-
-//                val resourceId = context.resources.getIdentifier(friend.profile_image, "drawable", context.packageName)
-//                friendPhoto?.setImageResource(R.drawable.profile)
 
                 var imgFile: File = File("/storage/emulated/0/isdown"+"/profile_${roomUser.userId}.jpg")
                 if(imgFile.exists()){

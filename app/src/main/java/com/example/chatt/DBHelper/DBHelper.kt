@@ -25,9 +25,22 @@ class DBHelper(context: Context) :
 
     }
 
-    //UPGRADE TB
+    //UPGRADE TBRoomConstant
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS" + FriendConstant.TB_NAME)
-        onCreate(db)
+        db.execSQL("DROP TABLE IF EXISTS" + RoomConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS" + MessageConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS" + RoomUserConstant.TB_NAME)
+
+//        onCreate(db)
+    }
+
+    fun delete(db: SQLiteDatabase){
+
+        db.execSQL("DROP TABLE IF EXISTS" + FriendConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS" + RoomConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS" + MessageConstant.TB_NAME)
+        db.execSQL("DROP TABLE IF EXISTS" + RoomUserConstant.TB_NAME)
+
     }
 }

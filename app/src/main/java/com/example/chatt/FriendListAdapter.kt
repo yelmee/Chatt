@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,13 +54,18 @@ class FriendListAdapter(val context: Context, val friendList: ArrayList<Friend>)
 
             if (imgFile.exists()) {
                 try {
+
+                    var task: CompressClass = CompressClass()
+                    task.execute(BitmapFactory.decodeFile(imgFile.absolutePath))
                     // error occur : java.lang.IllegalStateException: BitmapFactory.decodeFile(imgFile.absolutePath) must not be null
-                    options = BitmapFactory.Options()
-                    options.inSampleSize = 2
-                    var myBitmap: Bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
-                    friendPhoto?.setImageBitmap(myBitmap)
+//                    options = BitmapFactory.Options()
+//                    options.inSampleSize = 2
+//                    var myBitmap: Bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+//                    friendPhoto?.setImageBitmap(myBitmap)
+
 
                 } catch (e: OutOfMemoryError) {
+
                     try {
                         options = BitmapFactory.Options()
                         options.inSampleSize = 2
@@ -70,11 +76,9 @@ class FriendListAdapter(val context: Context, val friendList: ArrayList<Friend>)
                         Log.e(this.toString(), exception.toString())
                     }
 
+                    
                 }
-            } else {
-                friendPhoto?.setImageResource(R.drawable.profile4)
             }
-
             friendName?.text = friend.name
 
             // 아이템 클릭 시 프로필로 이동
@@ -91,6 +95,27 @@ class FriendListAdapter(val context: Context, val friendList: ArrayList<Friend>)
                     context.startActivity(intent)
                 }
 
+            }
+
+        }
+
+        inner class CompressClass: AsyncTask<Bitmap, Void, Bitmap>() {
+            override fun doInBackground(vararg params: Bitmap?): Bitmap {
+
+                var bitmap: Bitmap = Bitmap.createScaledBitmap(params[0]!!, 100, 100, false)
+//                var myBitmap: Bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+
+                return bitmap
+            }
+
+            override fun onPostExecute(bitmap: Bitmap?) {
+                super.onPostExecute(bitmap)
+
+                if(bitmap != null){
+                    friendPhoto?.setImageBitmap(bitmap)
+                }else{
+                    Log.e(this.toString(), "비트맵 설정 실패")
+                }
             }
 
         }

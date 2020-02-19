@@ -74,7 +74,6 @@ class FriendListFragment : Fragment() {
         mRecyclerView.setNestedScrollingEnabled(false)
 
         mSocket = SocketServer.getSocket()
-//        mSocket.on(Socket.EVENT_CONNECT, onConnect)
         mSocket.on("new friend", onNewFriend)
         mSocket.on("new room", onNewRoom)
         mSocket.on("new user", onNewUser)
@@ -105,13 +104,13 @@ class FriendListFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-//
-//            mSocket.off("chat message", onChatMessage)
-//            mSocket.off("new friend", onNewFriend)
-//            mSocket.off("new room", onNewRoom)
-//            mSocket.off("new user", onNewUser)
-//            mSocket.off("invite allRoomUser", onAllRoomUser)
-//            mSocket.off("invite room", onRoomInvited)
+
+            mSocket.off("chat message", onChatMessage)
+            mSocket.off("new friend", onNewFriend)
+            mSocket.off("new room", onNewRoom)
+            mSocket.off("new user", onNewUser)
+            mSocket.off("invite allRoomUser", onAllRoomUser)
+            mSocket.off("invite room", onRoomInvited)
     }
 
     override fun onDestroy() {
