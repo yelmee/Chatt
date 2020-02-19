@@ -45,3 +45,10 @@
 <right><img src="https://user-images.githubusercontent.com/55048165/74676196-ceb61480-51f8-11ea-83cd-bbf65f350173.png" height=25% width="25%"><right>
 	
 * 회원을 탈퇴하거나 로그아웃을 할 수 있습니다
+
+## API 
+* retrofit
+* formidable
+* socket.io
+* sqlite
+* swipte
